@@ -3,15 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="wrap_content"
+    android:paddingBottom="15dp">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvMovies"
+
+    <ImageView
+        android:id="@+id/ivPopular"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
-        android:background="#050505" />
+        tools:srcCompat="@tools:sample/avatars" />
 </RelativeLayout>

@@ -22,7 +22,7 @@ Flix is an app that allows users to browse movies from the [The Movie Database A
 - [x] (2pts) For popular movies (i.e. a movie voted for more than 5 stars), the full backdrop image is displayed. Otherwise, a poster image, the movie title, and overview is listed. Use Heterogenous RecyclerViews and use different ViewHolder layout files for popular movies and less popular ones.
 
 ### App Walkthough GIF
-<img src="https://imgur.com/a/TRISXwX" width=250><br>
+<img src="walkthrough.gif" width=250><br>
 
 ### Notes
 One of the main challenges was figuring out how the heterogenous view holders work. However, with the help of the CodePath wiki and what was mentioned in the videos I was able to figure it out. Another challenge was working with Glide and what was expected when loading a placeholder and error image before it was loaded. Initially it was quite confusing how it works however, by looking at the Glide documentation I was able to figure out how I can achieve this feature.

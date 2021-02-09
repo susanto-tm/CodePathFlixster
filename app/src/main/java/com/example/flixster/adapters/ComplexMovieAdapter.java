@@ -22,8 +22,8 @@ import java.util.List;
 
 public class ComplexMovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private Context context;
-    private List<Movie> movies;
+    private final Context context;
+    private final List<Movie> movies;
 
     private final int REGULAR = 0, POPULAR = 1;
 

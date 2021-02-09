@@ -25,7 +25,7 @@ Flix is an app that allows users to browse movies from the [The Movie Database A
 <img src="walkthrough.gif" width=250><br>
 
 ### Notes
-Describe any challenges encountered while building the app.
+One of the main challenges was figuring out how the heterogenous view holders work. However, with the help of the CodePath wiki and what was mentioned in the videos I was able to figure it out. Another challenge was working with Glide and what was expected when loading a placeholder and error image before it was loaded. Initially it was quite confusing how it works however, by looking at the Glide documentation I was able to figure out how I can achieve this feature.
 
 ### Open-source libraries used
 

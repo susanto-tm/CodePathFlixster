@@ -1,22 +1,32 @@
 package com.example.flixster.adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.flixster.DetailActivity;
+import com.example.flixster.MainActivity;
 import com.example.flixster.R;
 import com.example.flixster.models.Movie;
 import com.example.flixster.viewholders.PopularViewHolder;
 import com.example.flixster.viewholders.RegularViewHolder;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -83,6 +93,7 @@ public class ComplexMovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         regularView.setTitle(movie.getTitle());
         regularView.setOverview(movie.getOverview());
+        bindContainerClickListener(regularView, regularView.regularContainer, movie);
     }
 
     private void bindPopularViewHolder(PopularViewHolder popularView, int position) {
@@ -93,6 +104,30 @@ public class ComplexMovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 .placeholder(R.drawable.placeholder)
                 .error(R.drawable.error)
                 .into(ivPopular);
+
+        bindContainerClickListener(popularView, popularView.popularContainer, movie);
+    }
+
+    private void bindContainerClickListener(RecyclerView.ViewHolder holder, RelativeLayout viewContainer, Movie movie) {
+        viewContainer.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, DetailActivity.class);
+                intent.putExtra("movie", Parcels.wrap(movie));
+                if (holder.getItemViewType() == REGULAR) {
+                    RegularViewHolder regularHolder = (RegularViewHolder) holder;
+//                    Pair<View, String> p1 = Pair.create(regularHolder.tvTitle, "movieTitle");
+//                    Pair<View, String> p2 = Pair.create(regularHolder.tvOverview, "movieOverview");
+                    ActivityOptionsCompat options = ActivityOptionsCompat.
+                            makeSceneTransitionAnimation((Activity) context, regularHolder.tvTitle, "movieTitle");
+                    context.startActivity(intent, options.toBundle());
+                } else {
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context);
+                    context.startActivity(intent, options.toBundle());
+                }
+            }
+        });
     }
 
     @Override

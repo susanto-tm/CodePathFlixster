@@ -1,17 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/popularContainer"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingBottom="15dp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable name="movie" type="com.example.flixster.models.Movie" />
+    </data>
 
-    <ImageView
-        android:id="@+id/ivPopular"
+    <RelativeLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/popularContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        tools:srcCompat="@tools:sample/avatars" />
-</RelativeLayout>
+        android:paddingBottom="15dp">
+
+
+        <ImageView
+            android:id="@+id/ivPopular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/ivPopular"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="170dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="170dp"
+            android:layout_marginBottom="20dp"
+            app:srcCompat="@drawable/play_button_purple" />
+    </RelativeLayout>
+</layout>

@@ -12,11 +12,11 @@ import java.util.List;
 public class Movie {
 
     int movieId;
-    String backdropPath;
-    String posterPath;
-    String title;
-    String overview;
-    Double averageRating;
+    public String backdropPath;
+    public String posterPath;
+    public String title;
+    public String overview;
+    public Double averageRating;
 
     // empty constructor needed for Parceler
     public Movie() {}

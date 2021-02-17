@@ -1,7 +1,10 @@
 package com.example.flixster;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.transition.Explode;
 import android.transition.Fade;
@@ -10,8 +13,10 @@ import android.util.Log;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+import com.example.flixster.databinding.ActivityDetailBinding;
 import com.example.flixster.models.Movie;
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
@@ -29,6 +34,15 @@ public class DetailActivity extends YouTubeBaseActivity {
     public static final String YOUTUBE_API = "AIzaSyC3O-6Ol5ZCmTzxN-kSNWtneP2e1uDjWoo";
     public static final String MOVIE_API = "https://api.themoviedb.org/3/movie/%d/videos?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
 
+    private final int REGULAR = 0, POPULAR = 1;
+
+    // Indicates first entered the activity from YoutubePlayerActivity
+    private static boolean fullscreenStartActivity = true;
+
+    private int currentMillis;
+
+    private ActivityDetailBinding binding;
+
     TextView tvDetailTitle;
     TextView tvDetailOverview;
     RatingBar ratingBar;
@@ -38,12 +52,12 @@ public class DetailActivity extends YouTubeBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
 
-        tvDetailTitle = (TextView) findViewById(R.id.tvDetailTitle);
-        tvDetailOverview = (TextView) findViewById(R.id.tvDetailOverview);
-        ratingBar = (RatingBar) findViewById(R.id.ratingBar);
-        youTubePlayerView = (YouTubePlayerView) findViewById(R.id.player);
+        tvDetailTitle = binding.tvDetailTitle;
+        tvDetailOverview = binding.tvDetailOverview;
+        ratingBar = binding.ratingBar;
+        youTubePlayerView = binding.player;
 
         final Fade fadeEnter = new Fade();
         fadeEnter.addTarget(ratingBar);
@@ -68,9 +82,10 @@ public class DetailActivity extends YouTubeBaseActivity {
         getWindow().setExitTransition(exit);
 
         Movie movie = Parcels.unwrap(getIntent().getParcelableExtra("movie"));
-        tvDetailTitle.setText(movie.getTitle());
-        tvDetailOverview.setText(movie.getOverview());
-        ratingBar.setRating((float) movie.getAverageRating());
+
+        binding.setMovie(movie);
+
+        currentMillis = getIntent().getIntExtra("restoreMillis", 0);
 
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(String.format(MOVIE_API, movie.getMovieId()), new JsonHttpResponseHandler() {
@@ -98,15 +113,40 @@ public class DetailActivity extends YouTubeBaseActivity {
     private void initializeYoutube(String youtubeKey) {
         youTubePlayerView.initialize(YOUTUBE_API, new YouTubePlayer.OnInitializedListener() {
             @Override
-            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean wasRestored) {
                 Log.d("DetailActivity", "onInitializationSuccess");
-                youTubePlayer.cueVideo(youtubeKey);
+                int movieViewType = getIntent().getIntExtra("viewType", REGULAR);
+                Log.d("DetailActivity", String.format("MovieViewType: %d", movieViewType));
+                Log.d("DetailActivity", "From YoutubeActivity Restored: " + wasRestored);
+                Log.d("DetailActivity", "From YoutubeActivity fullscreeninit: " + fullscreenStartActivity);
+
+                if (movieViewType == POPULAR && fullscreenStartActivity) {
+                    Log.d("DetailActivity", "From YoutubePlayerActivity");
+                    fullscreenStartActivity = false;
+                    youTubePlayer.loadVideo(youtubeKey, currentMillis);
+                    Log.d("DetailActivity", "Millis restore: " + currentMillis);
+                    youTubePlayer.play();
+                } else if (wasRestored) {
+                    youTubePlayer.play();
+                }
+                else {
+                    youTubePlayer.cueVideo(youtubeKey);
+                }
             }
 
             @Override
             public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
                 Log.d("DetailActivity", "onInitializationFailure");
+                finish();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        // Both variables are static to override re-initialization
+        // Set back to original values when exiting Activity
+        fullscreenStartActivity = true;
+        super.onBackPressed();
     }
 }

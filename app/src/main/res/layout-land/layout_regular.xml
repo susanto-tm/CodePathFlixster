@@ -1,43 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/regularContainer"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingBottom="15dp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <ImageView
-        android:id="@+id/ivRegular"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
-        tools:srcCompat="@tools:sample/avatars" />
+    <data>
+        <variable name="movie" type="com.example.flixster.models.Movie" />
+    </data>
 
-    <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="9dp"
-        android:layout_toEndOf="@+id/ivRegular"
-        android:textColor="#FFAA00"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        tools:text="Wonder Woman 1984" />
+    <RelativeLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
 
-    <TextView
-        android:id="@+id/tvOverview"
-        android:layout_width="wrap_content"
+        android:id="@+id/regularContainer"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvTitle"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_toEndOf="@+id/ivRegular"
-        android:ellipsize="end"
-        android:maxLines="3"
-        android:textColor="#FFFFFF"
-        tools:text="Wonder Woman comes into conflict with the Soviet Union during the Cold War in the 1980s and finds a formidable foe by the name of the Cheetah." />
-</RelativeLayout>
+        android:paddingBottom="15dp">
+
+        <ImageView
+            android:id="@+id/ivRegular"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="9dp"
+            android:layout_toEndOf="@+id/ivRegular"
+            android:textColor="#FFAA00"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            tools:text="Wonder Woman 1984" />
+
+        <TextView
+            android:id="@+id/tvOverview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvTitle"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@+id/ivRegular"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:textColor="#FFFFFF"
+            tools:text="Wonder Woman comes into conflict with the Soviet Union during the Cold War in the 1980s and finds a formidable foe by the name of the Cheetah." />
+    </RelativeLayout>
+</layout>

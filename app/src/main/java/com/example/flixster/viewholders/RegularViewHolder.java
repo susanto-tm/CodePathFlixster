@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.flixster.R;
+import com.example.flixster.databinding.LayoutRegularBinding;
 
 public class RegularViewHolder extends RecyclerView.ViewHolder {
 
@@ -17,19 +18,12 @@ public class RegularViewHolder extends RecyclerView.ViewHolder {
     public TextView tvTitle;
     public TextView tvOverview;
 
-    public RegularViewHolder(@NonNull View itemView) {
-        super(itemView);
-        ivRegular = (ImageView) itemView.findViewById(R.id.ivRegular);
-        tvTitle = (TextView) itemView.findViewById(R.id.tvTitle);
-        tvOverview = (TextView) itemView.findViewById(R.id.tvOverview);
-        regularContainer = (RelativeLayout) itemView.findViewById(R.id.regularContainer);
-    }
 
-    public void setTitle(String title) {
-        tvTitle.setText(title);
-    }
-
-    public void setOverview(String overview) {
-        tvOverview.setText(overview);
+    public RegularViewHolder(@NonNull LayoutRegularBinding binding) {
+        super(binding.getRoot());
+        ivRegular = binding.ivRegular;
+        tvTitle = binding.tvTitle;
+        tvOverview = binding.tvOverview;
+        regularContainer = binding.regularContainer;
     }
 }

@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.util.Pair;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -22,6 +23,9 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.flixster.DetailActivity;
 import com.example.flixster.MainActivity;
 import com.example.flixster.R;
+import com.example.flixster.YoutubePlayerActivity;
+import com.example.flixster.databinding.LayoutPopularBinding;
+import com.example.flixster.databinding.LayoutRegularBinding;
 import com.example.flixster.models.Movie;
 import com.example.flixster.viewholders.PopularViewHolder;
 import com.example.flixster.viewholders.RegularViewHolder;
@@ -34,6 +38,8 @@ public class ComplexMovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private final Context context;
     private final List<Movie> movies;
+    private LayoutPopularBinding layoutPopularBinding;
+    private LayoutRegularBinding layoutRegularBinding;
 
     private final int REGULAR = 0, POPULAR = 1;
 
@@ -50,12 +56,12 @@ public class ComplexMovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         switch (viewType) {
             case REGULAR:
-                View regularView = inflater.inflate(R.layout.layout_regular, parent, false);
-                viewHolder = new RegularViewHolder(regularView);
+                layoutRegularBinding = DataBindingUtil.inflate(inflater, R.layout.layout_regular, parent, false);
+                viewHolder = new RegularViewHolder(layoutRegularBinding);
                 break;
             case POPULAR:
-                View popularView = inflater.inflate(R.layout.layout_popular, parent, false);
-                viewHolder = new PopularViewHolder(popularView);
+                layoutPopularBinding = DataBindingUtil.inflate(inflater, R.layout.layout_popular, parent, false);
+                viewHolder = new PopularViewHolder(layoutPopularBinding);
         }
         return viewHolder;
     }
@@ -91,8 +97,7 @@ public class ComplexMovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 .error(R.drawable.error)
                 .into(ivRegular);
 
-        regularView.setTitle(movie.getTitle());
-        regularView.setOverview(movie.getOverview());
+        layoutRegularBinding.setMovie(movie);
         bindContainerClickListener(regularView, regularView.regularContainer, movie);
     }
 
@@ -105,6 +110,7 @@ public class ComplexMovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 .error(R.drawable.error)
                 .into(ivPopular);
 
+        layoutPopularBinding.setMovie(movie);
         bindContainerClickListener(popularView, popularView.popularContainer, movie);
     }
 
@@ -115,16 +121,17 @@ public class ComplexMovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             public void onClick(View v) {
                 Intent intent = new Intent(context, DetailActivity.class);
                 intent.putExtra("movie", Parcels.wrap(movie));
+                intent.putExtra("viewType", holder.getItemViewType());
                 if (holder.getItemViewType() == REGULAR) {
                     RegularViewHolder regularHolder = (RegularViewHolder) holder;
-//                    Pair<View, String> p1 = Pair.create(regularHolder.tvTitle, "movieTitle");
-//                    Pair<View, String> p2 = Pair.create(regularHolder.tvOverview, "movieOverview");
                     ActivityOptionsCompat options = ActivityOptionsCompat.
                             makeSceneTransitionAnimation((Activity) context, regularHolder.tvTitle, "movieTitle");
                     context.startActivity(intent, options.toBundle());
                 } else {
-                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context);
-                    context.startActivity(intent, options.toBundle());
+                    intent = new Intent(context, YoutubePlayerActivity.class);
+                    intent.putExtra("movie", Parcels.wrap(movie));
+                    intent.putExtra("viewType", holder.getItemViewType());
+                    context.startActivity(intent);
                 }
             }
         });

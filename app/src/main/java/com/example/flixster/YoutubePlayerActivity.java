@@ -35,6 +35,10 @@ public class YoutubePlayerActivity extends YouTubeBaseActivity {
     private ActivityYoutubePlayerBinding binding;
     private Movie movie;
 
+    private final int REGULAR = 0, POPULAR = 1;
+
+    private int movieViewType;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +47,8 @@ public class YoutubePlayerActivity extends YouTubeBaseActivity {
         player = binding.player;
 
         movie = Parcels.unwrap(getIntent().getParcelableExtra("movie"));
+
+        movieViewType = getIntent().getIntExtra("viewType", REGULAR);
 
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(String.format(MOVIE_API, movie.getMovieId()), new JsonHttpResponseHandler() {
@@ -88,13 +94,18 @@ public class YoutubePlayerActivity extends YouTubeBaseActivity {
                             Log.d("YoutubeActivity", "Current Millis: " + restoreMillis);
                             youTubePlayer.setFullscreen(false);
 
-                            Intent intent = new Intent(YoutubePlayerActivity.this, DetailActivity.class);
-
-                            intent.putExtra("restoreMillis", restoreMillis);
-                            intent.putExtra("movie", Parcels.wrap(movie));
-                            intent.putExtra("viewType", getIntent().getIntExtra("viewType", 0));
+                            Intent intent;
+                            if (movieViewType == POPULAR) {
+                                intent = new Intent(YoutubePlayerActivity.this, DetailActivity.class);
+                                intent.putExtra("restoreMillis", restoreMillis);
 
 //                            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(YoutubePlayerActivity.this);
+                            }
+                            else {
+                                intent = new Intent(YoutubePlayerActivity.this, DetailActivityRegular.class);
+                            }
+                            intent.putExtra("movie", Parcels.wrap(movie));
+                            intent.putExtra("viewType", getIntent().getIntExtra("viewType", 0));
                             startActivity(intent);
                         }
                     }

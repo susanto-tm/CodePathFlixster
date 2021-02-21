@@ -56,26 +56,28 @@ public class ComplexMovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         switch (viewType) {
             case REGULAR:
-                layoutRegularBinding = DataBindingUtil.inflate(inflater, R.layout.layout_regular, parent, false);
-                viewHolder = new RegularViewHolder(layoutRegularBinding);
+                LayoutRegularBinding layoutRegularBinding = DataBindingUtil.inflate(inflater, R.layout.layout_regular, parent, false);
+                viewHolder = new RegularViewHolder(layoutRegularBinding, context);
                 break;
             case POPULAR:
-                layoutPopularBinding = DataBindingUtil.inflate(inflater, R.layout.layout_popular, parent, false);
-                viewHolder = new PopularViewHolder(layoutPopularBinding);
+                LayoutPopularBinding layoutPopularBinding = DataBindingUtil.inflate(inflater, R.layout.layout_popular, parent, false);
+                viewHolder = new PopularViewHolder(layoutPopularBinding, context);
         }
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        Movie movie = movies.get(position);
+
         switch (holder.getItemViewType()) {
             case REGULAR:
                 RegularViewHolder regularView = (RegularViewHolder) holder;
-                bindRegularViewHolder(regularView, position);
+                regularView.bind(movie);
                 break;
             case POPULAR:
                 PopularViewHolder popularView = (PopularViewHolder) holder;
-                bindPopularViewHolder(popularView, position);
+                popularView.bind(movie);
                 break;
         }
     }
@@ -97,7 +99,8 @@ public class ComplexMovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 .error(R.drawable.error)
                 .into(ivRegular);
 
-        layoutRegularBinding.setMovie(movie);
+        regularView.binding.setMovie(movie);
+        regularView.binding.executePendingBindings();
         bindContainerClickListener(regularView, regularView.regularContainer, movie);
     }
 
@@ -110,7 +113,8 @@ public class ComplexMovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 .error(R.drawable.error)
                 .into(ivPopular);
 
-        layoutPopularBinding.setMovie(movie);
+        popularView.binding.setMovie(movie);
+        popularView.binding.executePendingBindings();
         bindContainerClickListener(popularView, popularView.popularContainer, movie);
     }
 

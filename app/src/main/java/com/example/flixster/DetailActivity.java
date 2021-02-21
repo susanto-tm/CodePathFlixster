@@ -35,6 +35,7 @@ public class DetailActivity extends YouTubeBaseActivity {
     public static final String MOVIE_API = "https://api.themoviedb.org/3/movie/%d/videos?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
 
     private final int REGULAR = 0, POPULAR = 1;
+    private int movieViewType;
 
     // Indicates first entered the activity from YoutubePlayerActivity
     private static boolean fullscreenStartActivity = true;
@@ -48,38 +49,26 @@ public class DetailActivity extends YouTubeBaseActivity {
     RatingBar ratingBar;
 
     YouTubePlayerView youTubePlayerView;
+    YouTubePlayer player;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
+
+        movieViewType = getIntent().getIntExtra("viewType", REGULAR);
+
+        if (movieViewType == REGULAR) {
+            binding = DataBindingUtil.setContentView(this, R.layout.activity_detail_regular);
+        } else {
+            binding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
+            youTubePlayerView = binding.player;
+        }
 
         tvDetailTitle = binding.tvDetailTitle;
         tvDetailOverview = binding.tvDetailOverview;
         ratingBar = binding.ratingBar;
-        youTubePlayerView = binding.player;
 
-        final Fade fadeEnter = new Fade();
-        fadeEnter.addTarget(ratingBar);
-        fadeEnter.addTarget(tvDetailOverview);
 
-        final Fade fadeOut = new Fade();
-        fadeOut.setDuration(500);
-        fadeOut.addTarget(R.id.detailContainer);
-
-        Explode explode = new Explode();
-        explode.excludeTarget(R.id.ratingBar, true);
-
-        TransitionSet enter = new TransitionSet();
-        enter.addTransition(explode);
-        enter.addTransition(fadeEnter);
-
-        TransitionSet exit = new TransitionSet();
-        exit.addTransition(fadeOut);
-        exit.removeTransition(explode);
-
-        getWindow().setEnterTransition(enter);
-        getWindow().setExitTransition(exit);
 
         Movie movie = Parcels.unwrap(getIntent().getParcelableExtra("movie"));
 
@@ -111,6 +100,35 @@ public class DetailActivity extends YouTubeBaseActivity {
     }
 
     private void initializeYoutube(String youtubeKey) {
+        youTubePlayerView.initialize(YOUTUBE_API, new YouTubePlayer.OnInitializedListener() {
+
+            @Override
+            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean wasRestored) {
+                player = youTubePlayer;
+                cueVideo(youtubeKey, wasRestored);
+            }
+
+            @Override
+            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+                Log.e("DetailActivity", "onInitializationFailure");
+                finish();
+            }
+        });
+    }
+
+    private void cueVideo(String youtubeKey, boolean wasRestored) {
+        if (movieViewType == POPULAR) {
+            player.loadVideo(youtubeKey, currentMillis);
+            player.play();
+        } else if (wasRestored) {
+            player.play();
+        } else {
+            player.cueVideo(youtubeKey);
+        }
+
+    }
+
+    private void initializeYoutube2(String youtubeKey) {
         youTubePlayerView.initialize(YOUTUBE_API, new YouTubePlayer.OnInitializedListener() {
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean wasRestored) {

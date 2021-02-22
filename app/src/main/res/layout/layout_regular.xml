@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -7,7 +8,6 @@
     </data>
 
     <RelativeLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/regularContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,11 +16,12 @@
         <ImageView
             android:id="@+id/ivRegular"
             android:layout_width="130dp"
-            android:layout_height="wrap_content"
+            android:layout_height="200dp"
             android:layout_marginStart="0dp"
             android:layout_marginTop="0dp"
-            tools:srcCompat="@tools:sample/avatars"
-            app:imageUrl="@{movie.posterPath}" />
+            android:paddingStart="5dp"
+            app:imageUrl="@{movie.posterPath}"
+            tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
             android:id="@+id/tvTitle"

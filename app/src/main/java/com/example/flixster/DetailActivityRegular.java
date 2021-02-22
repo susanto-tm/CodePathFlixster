@@ -18,6 +18,7 @@ import androidx.databinding.DataBindingUtil;
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.flixster.databinding.ActivityDetailRegularBinding;
+
 import com.example.flixster.models.Movie;
 
 import org.json.JSONArray;
@@ -29,7 +30,6 @@ import okhttp3.Headers;
 public class DetailActivityRegular extends AppCompatActivity {
     private final int REGULAR = 0;
     public static final String MOVIE_API = "https://api.themoviedb.org/3/movie/%d/videos?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
-
     private ActivityDetailRegularBinding binding;
 
     TextView tvDetailTitle;

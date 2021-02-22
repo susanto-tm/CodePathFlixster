@@ -98,14 +98,13 @@ public class YoutubePlayerActivity extends YouTubeBaseActivity {
                             if (movieViewType == POPULAR) {
                                 intent = new Intent(YoutubePlayerActivity.this, DetailActivity.class);
                                 intent.putExtra("restoreMillis", restoreMillis);
-
-//                            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(YoutubePlayerActivity.this);
                             }
                             else {
                                 intent = new Intent(YoutubePlayerActivity.this, DetailActivityRegular.class);
                             }
                             intent.putExtra("movie", Parcels.wrap(movie));
                             intent.putExtra("viewType", getIntent().getIntExtra("viewType", 0));
+                            youTubePlayer.release();
                             startActivity(intent);
                         }
                     }

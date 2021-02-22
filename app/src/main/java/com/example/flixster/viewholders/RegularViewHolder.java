@@ -3,6 +3,7 @@ package com.example.flixster.viewholders;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -12,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.flixster.DetailActivityRegular;
 import com.example.flixster.MainActivity;
 import com.example.flixster.R;
@@ -47,7 +49,6 @@ public class RegularViewHolder extends RecyclerView.ViewHolder {
     public void bind(Movie movie) {
         binding.setMovie(movie);
         binding.executePendingBindings();
-
         regularContainer.setOnClickListener(new View.OnClickListener() {
 
             @Override

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable name="movie" type="com.example.flixster.models.Movie" />
+    </data>
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:minWidth="300dp"
+        tools:context=".DetailActivity">
+
+        <com.google.android.youtube.player.YouTubePlayerView
+            android:id="@+id/player"
+            android:layout_width="match_parent"
+            android:layout_height="250dp" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                
+                <TextView
+                    android:id="@+id/tvDetailTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:text="@{movie.title}"
+                    android:textColor="#000000"
+                    android:textSize="35sp"
+                    android:textStyle="bold"
+                    android:transitionName="movieTitle"
+                    tools:text="Wonder Woman 1984" />
+
+                <RatingBar
+                    android:id="@+id/ratingBar"
+                    android:layout_width="502dp"
+                    android:layout_height="wrap_content"
+                    android:isIndicator="true"
+                    android:numStars="10"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:rating="@{(float) movie.averageRating}" />
+
+                <TextView
+                    android:id="@+id/tvDetailOverview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="20dp"
+                    android:text="@{movie.overview}"
+                    android:textColor="#000000"
+                    android:textSize="20sp"
+                    android:transitionName="movieOverview"
+                    tools:text="Wonder Woman comes into conflict with the Soviet Union during the Cold War in the 1980s and finds a formidable foe by the name of the Cheetah." />
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+</layout>

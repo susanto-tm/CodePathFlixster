@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -7,7 +9,6 @@
     </data>
 
     <RelativeLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/regularContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,11 +17,11 @@
         <ImageView
             android:id="@+id/ivRegular"
             android:layout_width="350dp"
-            android:layout_height="wrap_content"
+            android:layout_height="200dp"
             android:layout_marginStart="0dp"
             android:layout_marginTop="0dp"
-            tools:srcCompat="@tools:sample/avatars"
-            app:imageUrl="@{movie.backdropPath}" />
+            app:imageUrl="@{movie.backdropPath}"
+            tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
             android:id="@+id/tvTitle"
@@ -33,6 +34,7 @@
             android:textColor="#FFAA00"
             android:textSize="24sp"
             android:textStyle="bold"
+            android:text="@{movie.title}"
             tools:text="Wonder Woman 1984" />
 
         <TextView
@@ -46,6 +48,7 @@
             android:ellipsize="end"
             android:maxLines="3"
             android:textColor="#FFFFFF"
+            android:text="@{movie.overview}"
             tools:text="Wonder Woman comes into conflict with the Soviet Union during the Cold War in the 1980s and finds a formidable foe by the name of the Cheetah." />
     </RelativeLayout>
 </layout>

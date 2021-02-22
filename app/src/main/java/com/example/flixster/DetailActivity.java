@@ -54,24 +54,11 @@ public class DetailActivity extends YouTubeBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        movieViewType = getIntent().getIntExtra("viewType", REGULAR);
-
-        if (movieViewType == REGULAR) {
-            binding = DataBindingUtil.setContentView(this, R.layout.activity_detail_regular);
-        } else {
-            binding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
-            youTubePlayerView = binding.player;
-        }
-
-        tvDetailTitle = binding.tvDetailTitle;
-        tvDetailOverview = binding.tvDetailOverview;
-        ratingBar = binding.ratingBar;
-
-
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
 
         Movie movie = Parcels.unwrap(getIntent().getParcelableExtra("movie"));
 
+        youTubePlayerView = binding.player;
         binding.setMovie(movie);
 
         currentMillis = getIntent().getIntExtra("restoreMillis", 0);
@@ -111,53 +98,16 @@ public class DetailActivity extends YouTubeBaseActivity {
             @Override
             public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
                 Log.e("DetailActivity", "onInitializationFailure");
-                finish();
+
             }
         });
     }
 
     private void cueVideo(String youtubeKey, boolean wasRestored) {
-        if (movieViewType == POPULAR) {
+        if (!wasRestored) {
             player.loadVideo(youtubeKey, currentMillis);
-            player.play();
-        } else if (wasRestored) {
-            player.play();
-        } else {
-            player.cueVideo(youtubeKey);
         }
-
-    }
-
-    private void initializeYoutube2(String youtubeKey) {
-        youTubePlayerView.initialize(YOUTUBE_API, new YouTubePlayer.OnInitializedListener() {
-            @Override
-            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean wasRestored) {
-                Log.d("DetailActivity", "onInitializationSuccess");
-                int movieViewType = getIntent().getIntExtra("viewType", REGULAR);
-                Log.d("DetailActivity", String.format("MovieViewType: %d", movieViewType));
-                Log.d("DetailActivity", "From YoutubeActivity Restored: " + wasRestored);
-                Log.d("DetailActivity", "From YoutubeActivity fullscreeninit: " + fullscreenStartActivity);
-
-                if (movieViewType == POPULAR && fullscreenStartActivity) {
-                    Log.d("DetailActivity", "From YoutubePlayerActivity");
-                    fullscreenStartActivity = false;
-                    youTubePlayer.loadVideo(youtubeKey, currentMillis);
-                    Log.d("DetailActivity", "Millis restore: " + currentMillis);
-                    youTubePlayer.play();
-                } else if (wasRestored) {
-                    youTubePlayer.play();
-                }
-                else {
-                    youTubePlayer.cueVideo(youtubeKey);
-                }
-            }
-
-            @Override
-            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
-                Log.d("DetailActivity", "onInitializationFailure");
-                finish();
-            }
-        });
+        player.play();
     }
 
     @Override

@@ -21,7 +21,7 @@ Flix is an app that allows users to browse movies from the [The Movie Database A
 - [x] Add a rounded corners for the images using the Glide transformations. (1 point)
 
 #### Additional Features
-- [x] YouTube player is played in a different Activity and has no history in the Activity Stack.
+- [x] YouTube player is played in a different Activity and has no history on the Activity Stack.
 - [x] Popular movies that automatically enter fullscreen in the YouTubeActivity will restore its playback when it exits from the fullscreen.
 - [x] Popular movies detail page has a YouTube player built-in instead of an image (for less popular movies).
 - [x] Landscape orientation compatible for both popular movies and less popular movies detail page and YouTubeActivity.
@@ -33,7 +33,7 @@ Flix is an app that allows users to browse movies from the [The Movie Database A
 
 ### Notes
 
-The difficulties that I face mainly arise from the transition from the YouTubeActivity to other activities. Being able to transition without keeping a history in the Activity Stack, while being able to transfer different features of a popular movie and regular movie. I also faced difficulties in getting the player to load the video when abruptly ending the YouTube player from the YouTubeActivity to the DetailPageActivity.
+The difficulties that I face mainly arise from the transition from the YouTubeActivity to other activities. Being able to transition without keeping a history on the Activity Stack, while being able to transfer different features of a popular movie and regular movie. I also faced difficulties in getting the player to load the video when abruptly ending the YouTube player from the YouTubeActivity to the DetailPageActivity.
 
 ## Open-source libraries used
 - [Android Async HTTP](https://github.com/codepath/CPAsyncHttpClient) - Simple asynchronous HTTP requests with JSON parsing
